@@ -17,6 +17,10 @@ const addComment = async (req, res) => {
   const { id: blogId } = req.params;
   const { id: userId } = req.user;
   const { description } = req.body;
+  if(!description){
+    throw new Error("Please Enter decription of the comment")
+    return 
+  }
   //getting the user to get its username
   let user = await User.findOne({ _id: userId });
   let username = user.name;
