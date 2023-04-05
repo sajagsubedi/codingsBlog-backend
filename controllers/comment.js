@@ -25,7 +25,7 @@ const addComment = async (req, res) => {
   let user = await User.findOne({ _id: userId });
   let username = user.name;
   //adding Comment
-  let newComment = await Comment.create({ username, blogId, userId });
+  let newComment = await Comment.create({ username, blogId, userId,description });
   res.json({
     success: true,
     msg: "Comment added successfully",
