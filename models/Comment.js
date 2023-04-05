@@ -11,7 +11,10 @@ const CommentSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "userId",
   },
-  description: String,
+  description:{ 
+    type:String,
+  required:true
+  },
   date: {
     type: Date,
     default:Date.now,
