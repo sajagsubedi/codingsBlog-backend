@@ -1,4 +1,5 @@
 const Blog = require("../models/Blog");
+const { createCustomError } = require("../errors/Custom-error");
 
 //-----CONTROLLER 1 : To  fetch  blogs   using GET '/api/notes/fetchallblogs'----
 const fetchBlogs = async (req, res) => {
@@ -56,7 +57,7 @@ const addBlog = async (req, res) => {
     });
   }
   //adding add request in db to add blog
-  let newPost = await new Blog(req.body);
+  let newPost =  new Blog(req.body);
   await newPost.save();
   let newData = await Blog.find(req.body);
   res.json({
@@ -85,10 +86,7 @@ const updateBlog = async (req, res) => {
   );
   //throwing error if blog doesn't exists
   if (!newBlog) {
-    return res.status(401).json({
-      succes: false,
-      msg: `No blog with id=${BlogId}`,
-    });
+    createCustomError("Blog does'nt exists with the given id",401)
   }
   //sending the updated blog as response
   res.json({ succes: true, msg: "Updated Blog Successfully",blog: newBlog });

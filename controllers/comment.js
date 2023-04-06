@@ -1,5 +1,6 @@
 const Comment = require("../models/Comment.js");
 const User = require("../models/User.js");
+const { createCustomError } = require("../errors/Custom-error");
 
 //------------CONTROLLERS--------------
 
@@ -17,15 +18,20 @@ const addComment = async (req, res) => {
   const { id: blogId } = req.params;
   const { id: userId } = req.user;
   const { description } = req.body;
-  if(!description){
-    throw new Error("Please Enter decription of the comment")
-    return 
+  if (!description) {
+    createCustomError("Please enter description", 400);
+    return;
   }
   //getting the user to get its username
   let user = await User.findOne({ _id: userId });
   let username = user.name;
   //adding Comment
-  let newComment = await Comment.create({ username, blogId, userId,description });
+  let newComment = await Comment.create({
+    username,
+    blogId,
+    userId,
+    description,
+  });
   res.json({
     success: true,
     msg: "Comment added successfully",
@@ -44,10 +50,10 @@ const deleteComment = async (req, res) => {
     userId,
   });
   if (!deletedComment) {
-    throw new Error("Comment with the given id doesn't exists");
+    createCustomError("Comment with the given id doesn't exists", 401);
     return;
   }
-  res.status(200).json({success:true,msg:"Comment deleted successfully"})
+  res.status(200).json({ success: true, msg: "Comment deleted successfully" });
 };
 //exports of all controllers
 module.exports = { getComments, addComment, deleteComment };
