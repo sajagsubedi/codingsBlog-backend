@@ -21,9 +21,12 @@ const fetchBlogs = async (req, res) => {
   //finding blog as query object
   let result = Blog.find(queryObject);
 
+  //getting total results
+let TotalResults=await Blog.count(queryObject)
+
   //getting the required parameters=page,pageSize
   let page = Number(req.query.page) || 1;
-  let pageSize = Number(req.query.pageSize) || 8;
+  let pageSize = Number(req.query.pagesize) || TotalResults;
 
   //calculating the value to be skipped for fetching blogs according to page
   let skipValue = (page - 1) * pageSize;
@@ -33,8 +36,8 @@ const fetchBlogs = async (req, res) => {
   let Blogs = await result;
   res.json({
     success: true,
+    TotalResults,
     msg: "Blog fetched successfully!",
-    TotalResults: Blogs.length,
     category: category,
     page: page,
     blogs: Blogs,
@@ -57,7 +60,7 @@ const addBlog = async (req, res) => {
     });
   }
   //adding add request in db to add blog
-  let newPost =  new Blog(req.body);
+  let newPost = new Blog(req.body);
   await newPost.save();
   let newData = await Blog.find(req.body);
   res.json({
@@ -86,10 +89,10 @@ const updateBlog = async (req, res) => {
   );
   //throwing error if blog doesn't exists
   if (!newBlog) {
-    createCustomError("Blog does'nt exists with the given id",401)
+    createCustomError("Blog does'nt exists with the given id", 401);
   }
   //sending the updated blog as response
-  res.json({ succes: true, msg: "Updated Blog Successfully",blog: newBlog });
+  res.json({ succes: true, msg: "Updated Blog Successfully", blog: newBlog });
 };
 
 //-----CONTROLLER 4 : To  delete a  blog corresponding to id provide  using DELETE '/api/notes/deleteblog/:id'----------
