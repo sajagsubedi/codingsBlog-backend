@@ -35,9 +35,9 @@ let TotalResults=await Blog.count(queryObject)
   result = result.sort("-publishedAt").skip(skipValue).limit(pageSize);
   let Blogs = await result;
   res.json({
+    query:req.query,
     success: true,
-        pageSize,
-    
+    pageSize, 
     TotalResults,
     msg: "Blog fetched successfully!",
     category: category,
