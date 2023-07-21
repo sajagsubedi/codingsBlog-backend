@@ -36,6 +36,8 @@ let TotalResults=await Blog.count(queryObject)
   let Blogs = await result;
   res.json({
     success: true,
+        pageSize,
+    
     TotalResults,
     msg: "Blog fetched successfully!",
     category: category,
