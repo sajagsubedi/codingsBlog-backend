@@ -22,12 +22,10 @@ const fetchBlogs = async (req, res) => {
   let result = Blog.find(queryObject);
 
   //getting total results
-let TotalResults=await Blog.count(queryObject)
-
+  let TotalResults = await Blog.count(queryObject);
   //getting the required parameters=page,pageSize
   let page = Number(req.query.page) || 1;
   let pageSize = Number(req.query.pagesize) || TotalResults;
-
   //calculating the value to be skipped for fetching blogs according to page
   let skipValue = (page - 1) * pageSize;
 
@@ -35,9 +33,8 @@ let TotalResults=await Blog.count(queryObject)
   result = result.sort("-publishedAt").skip(skipValue).limit(pageSize);
   let Blogs = await result;
   res.json({
-    query:req.query,
     success: true,
-    pageSize, 
+    pageSize,
     TotalResults,
     msg: "Blog fetched successfully!",
     category: category,
