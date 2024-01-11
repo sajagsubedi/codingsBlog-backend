@@ -1,7 +1,7 @@
 const Blog = require("../models/Blog");
 const { createCustomError } = require("../errors/Custom-error");
 
-//-----CONTROLLER 1 : To  fetch  blogs   using GET '/api/notes/fetchallblogs'----
+//-----CONTROLLER 1 : To  fetch  blogs   using GET '/api/blogs/fetchallblogs'----
 const fetchBlogs = async (req, res) => {
   const { category, query } = req.query;
   let queryObject = {};
@@ -43,7 +43,7 @@ const fetchBlogs = async (req, res) => {
   });
 };
 
-//-----CONTROLLER 2 : To  add a blog  using POST '/api/notes/addblog'---------
+//-----CONTROLLER 2 : To  add a blog  using POST '/api/blogs/addblog'---------
 const addBlog = async (req, res) => {
   //finding blog to check whether the blog already exists or not
   let data = await Blog.find({
@@ -69,7 +69,7 @@ const addBlog = async (req, res) => {
   });
 };
 
-//-----CONTROLLER 3 : To  update a  blog corresponding to id provide  using PUT '/api/notes/updateblog/:id'----
+//-----CONTROLLER 3 : To  update a  blog corresponding to id provide  using PUT '/api/blogs/updateblog/:id'----
 
 const updateBlog = async (req, res) => {
   //getting id from params
@@ -94,7 +94,7 @@ const updateBlog = async (req, res) => {
   res.json({ succes: true, msg: "Updated Blog Successfully", blog: newBlog });
 };
 
-//-----CONTROLLER 4 : To  delete a  blog corresponding to id provide  using DELETE '/api/notes/deleteblog/:id'----------
+//-----CONTROLLER 4 : To  delete a  blog corresponding to id provide  using DELETE '/api/blogs/deleteblog/:id'----------
 
 const deleteBlog = async (req, res) => {
   //getting id from params
@@ -111,10 +111,17 @@ const deleteBlog = async (req, res) => {
   });
 };
 
+//-----CONTROLLER 5 : To  fetch a single blog corresponding to id provide  using DELETE '/api/blogs/blog/:id'----------
+const fetchSingleblog=async(req,res)=>{
+  const {id}=req.params;
+ let myBlog=await Blog.findById(id)
+ res.json(myBlog)
+}
 //exports of all the controllers
 module.exports = {
   fetchBlogs,
   addBlog,
   updateBlog,
   deleteBlog,
+  fetchSingleblog
 };

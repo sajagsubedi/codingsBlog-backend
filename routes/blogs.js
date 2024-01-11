@@ -6,6 +6,7 @@ const {
   addBlog,
   updateBlog,
   deleteBlog,
+  fetchSingleblog
 } = require("../controllers/blog.js");
 
 //-------ROUTES FOR CRUD OF Blogs--------
@@ -17,6 +18,8 @@ router.route("/addblog").post(checkAdmin, addBlog);
 router.route("/updateblog/:id").put(checkAdmin, updateBlog);
 //Route:4
 router.route("/deleteblog/:id").delete(checkAdmin, deleteBlog);
+//Route:5
+router.route("/blog/:id").get( fetchSingleblog);
 
 //export of router
 module.exports = router;
